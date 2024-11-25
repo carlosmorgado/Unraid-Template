@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Container>
+  <TemplateURL>https://raw.githubusercontent.com/carlosmorgado/Unraid-Template/main/carlosmorgado/wedding/survey/api.xml</TemplateURL>
+  <Beta>False</Beta>
+  <Category>Survey Web API</Category>
+  <Name>carlosmorgado-wedding-survey-api</Name>
+  <Repository>ghcr.io/carlosmorgado/wedding.survey.api:sha256-90da32a53a774ff636b1ad4fbb8a408cacadf43747ae6855255ac953a3f7d10c.sig</Repository>
+  <Networking>
+    <Mode>bridge</Mode>
+    <Publish>
+      <Port>
+        <HostPort>6969</HostPort>
+        <ContainerPort>8080</ContainerPort>
+        <Protocol>tcp</Protocol>
+      </Port>
+    </Publish>
+  </Networking>
+  <Environment>
+    <Variable>
+      <Name>survey-answers</Name>
+      <Value>my_value</Value>
+    </Variable>
+  </Environment>
+  <Config>
+    <Variable>
+      <Name>survey-answers</Name>
+      <Target>survey-answers</Target>
+      <Default>default_value</Default>
+      <Mode>rw</Mode>
+      <Description>Enter the value for survey-answers</Description>
+      <Type>Variable</Type>
+    </Variable>
+  </Config>
+</Container>
