@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Container version="2">
+  <TemplateURL>https://raw.githubusercontent.com/carlosmorgado/Unraid-Template/main/carlosmorgado/baby-diary/app.xml</TemplateURL>
+  <Beta>False</Beta>
+  <Category>Tools: Productivity: Network:Web</Category>
+  <Name>baby-diary</Name>
+  <Repository>ghcr.io/carlosmorgado/baby-diary-web:latest</Repository>
+  <Registry>https://github.com/carlosmorgado/baby-diary/pkgs/container/baby-diary-web</Registry>
+  <Project>https://github.com/carlosmorgado/baby-diary</Project>
+  <Support>https://github.com/carlosmorgado/baby-diary/issues</Support>
+  <WebUI>http://[IP]:[PORT:8080]</WebUI>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Network>baby-diary</Network>
+  <ExtraParams>--restart unless-stopped --security-opt=no-new-privileges:true</ExtraParams>
+  <Overview>Diário do Bebé is a Blazor Server app for tracking daily baby care, starting with diaper records for xixi, cocó, or both. This image is produced by GitHub Actions and should run with a MongoDB Community App on the private baby-diary Docker network.</Overview>
+  <Description>Before installing from a private GitHub repository, log in to ghcr.io from the Unraid terminal with a GitHub token that has read:packages. Install MongoDB from Unraid Community Apps first, put it on the baby-diary Docker network, then set this template's Mongo connection string to match it. For the public tunnel, install Unraid-Cloudflared-Tunnel from Community Apps and change its network from bridge to baby-diary.</Description>
+  <Networking>
+    <Mode>baby-diary</Mode>
+    <Publish>
+      <Port>
+        <HostPort>8080</HostPort>
+        <ContainerPort>8080</ContainerPort>
+        <Protocol>tcp</Protocol>
+      </Port>
+    </Publish>
+  </Networking>
+  <Environment>
+    <Variable>
+      <Name>ASPNETCORE_URLS</Name>
+      <Value>http://+:8080</Value>
+    </Variable>
+    <Variable>
+      <Name>ConnectionStrings__baby-diary</Name>
+      <Value>mongodb://babyDiaryRoot:change-me@baby-diary-mongodb:27017/baby-diary?authSource=admin</Value>
+    </Variable>
+    <Variable>
+      <Name>BabyDiary__Mongo__DatabaseName</Name>
+      <Value>baby-diary</Value>
+    </Variable>
+    <Variable>
+      <Name>BabyDiary__TimeZoneId</Name>
+      <Value>Europe/Lisbon</Value>
+    </Variable>
+  </Environment>
+  <Config Name="WebUI Port" Target="8080" Default="8080" Mode="tcp" Description="Host port for the Diário do Bebé web app and Unraid WebUI link. When using Unraid-Cloudflared-Tunnel on the same Docker network, route Cloudflare to http://baby-diary:8080 instead." Type="Port" Display="always" Required="true" Mask="false">8080</Config>
+  <Config Name="ASPNETCORE_URLS" Target="ASPNETCORE_URLS" Default="http://+:8080" Mode="" Description="ASP.NET Core listen URL inside the container." Type="Variable" Display="advanced" Required="true" Mask="false">http://+:8080</Config>
+  <Config Name="MongoDB Connection String" Target="ConnectionStrings__baby-diary" Default="mongodb://babyDiaryRoot:change-me@baby-diary-mongodb:27017/baby-diary?authSource=admin" Mode="" Description="MongoDB connection string. Use the same username and password configured in the MongoDB Community App. Keep the MongoDB container name as baby-diary-mongodb or update this host value." Type="Variable" Display="always" Required="true" Mask="true">mongodb://babyDiaryRoot:change-me@baby-diary-mongodb:27017/baby-diary?authSource=admin</Config>
+  <Config Name="MongoDB Database Name" Target="BabyDiary__Mongo__DatabaseName" Default="baby-diary" Mode="" Description="Database name used by Diário do Bebé." Type="Variable" Display="always" Required="true" Mask="false">baby-diary</Config>
+  <Config Name="Time Zone" Target="BabyDiary__TimeZoneId" Default="Europe/Lisbon" Mode="" Description="Time zone used for daily records." Type="Variable" Display="always" Required="true" Mask="false">Europe/Lisbon</Config>
+</Container>
